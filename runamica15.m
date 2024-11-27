@@ -150,6 +150,7 @@ num_mix_comps = 3;
 pdftype = 0;
 max_iter = 2000;
 
+do_approx_sphere = 1;
 mineig = 1e-12;
 
 do_history = 0;
@@ -373,6 +374,13 @@ pcakeep = -1;
             return
          else
             min_grad_norm = Value;
+         end
+      elseif strcmp(Keyword,'do_approx_sphere')
+         if isstr(Value)
+            fprintf('runamica(): do_approx_sphere should be 0 or 1');
+            return
+         else
+            do_approx_sphere = Value;
          end
       elseif strcmp(Keyword,'mineig')
          if isstr(Value)
@@ -810,6 +818,7 @@ fprintf(fid,'comp_thresh %f\n',comp_thresh);
 fprintf(fid,'share_iter %d\n',share_int);
 fprintf(fid,'lrate %f\n', lrate);
 fprintf(fid,'minlrate %e\n', minlrate);
+fprintf(fid,'do_approx_sphere %d\n', do_approx_sphere);
 fprintf(fid,'mineig %e\n', mineig);
 fprintf(fid,'lratefact %f\n', lratefact);
 fprintf(fid,'rholrate %f\n', rholrate);
