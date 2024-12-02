@@ -2061,24 +2061,26 @@ subroutine determine_block_size
 
   print *, myrank+1, ': Determining optimal block size ....'; call flush(6)
 
-  allocate(blk_time(1+floor(dble(blk_max-blk_min)/dble(blk_step))))
-  k = 1
-  do block_size = blk_min,blk_max,blk_step
+  do while (blk_min <= blk_max)
+     blk_mid = (blk_min + blk_max) / 2
+     block_size = blk_mid
+
      call allocate_blocks
      call system_clock(c1)
      call get_updates_and_likelihood
      call system_clock(c2,counts_per_sec)
-     blk_time(k) = dble(c2-c1)/dble(counts_per_sec)
-     k = k + 1
      call deallocate_blocks
+
+     if (dble(c2-c1)/dble(counts_per_sec) > 0.0) then
+        blk_min = blk_mid + 1
+     else
+        blk_max = blk_mid - 1
+     end if
   end do
 
-  print *, myrank+1, ': blk_times = ', blk_time; call flush(6)
+  block_size = blk_max
 
-  j = minloc(blk_time,1)
-  block_size = blk_min + (j-1)*blk_step
   call allocate_blocks
-  print *, myrank + 1, ': Minimum block time = ', blk_time(j); call flush(6)
 end subroutine determine_block_size
 
 
