@@ -131,6 +131,7 @@ end
 
 outdir = [ pwd filesep 'amicaouttmp' filesep ];
 
+dble_data = 1;
 
 numprocs = 1;
 max_threads = 2;
@@ -140,10 +141,10 @@ send_mail = 0;
 fix_init = 0;
 
 block_size = 128; % initial block size
-do_opt_block = 0; % optimize block size
-blk_min = 256;
+do_opt_block = 1; % optimize block size
+blk_min = 1024;
 blk_step = 256;
-blk_max = 1024;
+blk_max = 8192;
 
 num_models = 1;
 num_mix_comps = 3;
@@ -749,7 +750,7 @@ else
         error('Need num_chans keyword argument with number of channels, unknown file type');
     else
         fid = fopen(dat,'r');
-        dattmp = fread(fid,[chans inf],'float');
+        dattmp = fread(fid,[chans inf],'double');
         frames = size(dattmp,2);
         fclose(fid);
         clear dattmp;
@@ -761,7 +762,7 @@ if isnumeric(dat)
     filename = ['tmpdata' num2str(round(rand(1)*100000)) '.fdt' ];
     disp(['Writing data file: ' fullfile(pwd,filename)]);
     fid = fopen(filename, 'w');
-    fwrite(fid, dat, 'float');
+    fwrite(fid, dat, 'double');
     fclose(fid)
     chans = size(dat,1);
     frames = size(dat,2);
@@ -790,6 +791,7 @@ if fid < 1
     return;
 end
 
+fprintf(fid,'dble_data %d\n',dble_data);
 fprintf(fid,'files %s\n',file);
 fprintf(fid,'outdir %s\n',outdir);
 fprintf(fid,'block_size %d\n',block_size);
