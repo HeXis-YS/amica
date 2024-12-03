@@ -9,7 +9,7 @@
 %   'num_models'     - number of models to learn, default = 1              
 %   'num_mix_comps'  - number of mixture components in source model, def=3 
 %   'numprocs'       - number or processors (slots) to use, def=8 
-%   'max_iter'       - maximum number of iterations to perform, def=2000   
+%   'maxiter'        - maximum number of iterations to perform, def=2000   
 %   'lrate'          - initial learning rate for natural gradient, def=0.1
 %   'do_newton'      - flag for newton method, default = 1 (do newton)
 %   'newt_start'     - for newton method, iter at which to start newton, def=50
@@ -89,7 +89,7 @@ end
 try g.datfile;               catch, g.datfile       = fullfile(EEG.filepath, EEG.datfile);   end
 try g.outdir;                catch, g.outdir        = fullfile(EEG.filepath, 'amicaout');    end
 try g.num_mod;               catch, g.num_mod       = 1;                            end
-try g.max_iter;              catch, g.max_iter      = 2000;                         end
+try g.maxiter;               catch, g.maxiter       = 2000;                         end
 try g.max_threads;           catch, g.max_threads   = 4;                            end
 try g.pcakeep;               catch, g.pcakeep       = EEG.nbchan;                   end
 try g.nchan;                 catch, g.nchan         = EEG.nbchan;                   end
@@ -117,7 +117,7 @@ try g.rejint;           g.setrej = 1;   catch, g.rejint        = 3;             
 
 try g.num_mix_comps;    g.setmod = 1;   catch, g.num_mix_comps = 3;             end
 
-try g.max_iter;         g.setstop = 1;  catch, g.max_iter      = 2000;          end
+try g.maxiter;          g.setstop = 1;  catch, g.maxiter       = 2000;          end
 try g.use_grad_norm;    g.setstop = 1;  catch, g.use_grad_norm = [];            end
 try g.min_grad_norm;    g.setstop = 1;  catch, g.min_grad_norm = [];            end
 try g.use_min_dll;      g.setstop = 1;  catch, g.use_min_dll   = 1;             end
@@ -198,7 +198,7 @@ if nargin == 1
     stoppingdlg = [stoppingdlg '{''style'' ''edit'' ''string'' ''1e-9''} });'];
     stoppingdlg = [stoppingdlg 'if ~isempty(stopres)'];
     stoppingdlg = [stoppingdlg 'g = get(get(gcbo,''parent''),''UserData'');'];
-    stoppingdlg = [stoppingdlg 'g.max_iter = str2num(stopres{1}); g.use_grad_norm = stopres{2}; g.min_grad_norm = str2num(stopres{3});'];
+    stoppingdlg = [stoppingdlg 'g.maxiter = str2num(stopres{1}); g.use_grad_norm = stopres{2}; g.min_grad_norm = str2num(stopres{3});'];
     stoppingdlg = [stoppingdlg 'g.use_min_dll = stopres{4}; g.min_dll = str2num(stopres{5}); g.setstop = 1;'];
     stoppingdlg = [stoppingdlg 'set(get(gcbo,''parent''),''UserData'', g);'];
     stoppingdlg = [stoppingdlg 'end;'];
@@ -319,7 +319,7 @@ if g.setmod
     arglist = {arglist{:},'num_mix_comps',g.num_mix_comps};
 end
 if g.setstop
-    arglist = {arglist{:},'use_grad_norm',g.use_grad_norm,'min_grad_norm',g.min_grad_norm,...
+    arglist = {arglist{:},'max_iter',g.maxiter,'use_grad_norm',g.use_grad_norm,'min_grad_norm',g.min_grad_norm,...
         'use_min_dll',g.use_min_dll,'min_dll',g.min_dll};
 end
 if g.setlrat
@@ -331,9 +331,6 @@ if g.setblk
 end
 if all([g.setmpi, g.dompi]) || ~isempty(g.numprocs)
     arglist = {arglist{:},'numprocs',g.numprocs}; %,'machinefile',machinefile};
-end
-if g.max_iter
-    arglist = {arglist{:},'max_iter',g.max_iter};
 end
 
 if isfield(EEG,'datfile') && length(EEG.datfile) > 0
@@ -375,7 +372,7 @@ if nargout > 1
     end
     
     if ~g.setstop
-        % gtmp = rmfield(gtmp,'max_iter');
+        gtmp = rmfield(gtmp,'maxiter');
         gtmp = rmfield(gtmp,'use_grad_norm');
         gtmp = rmfield(gtmp,'min_grad_norm');
         gtmp = rmfield(gtmp,'use_min_dll');
