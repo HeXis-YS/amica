@@ -89,8 +89,8 @@ end
 try g.datfile;               catch, g.datfile       = fullfile(EEG.filepath, EEG.datfile);   end
 try g.outdir;                catch, g.outdir        = fullfile(EEG.filepath, 'amicaout');    end
 try g.num_mod;               catch, g.num_mod       = 1;                            end
-try g.maxiter;               catch, g.maxiter       = 2000;                         end
-try g.max_threads;           catch, g.max_threads   = 4;                            end
+try g.maxiter;               catch, g.maxiter       = 20000;                        end
+try g.max_threads;           catch, g.max_threads   = floor(feature('numcores') / 2);        end
 try g.pcakeep;               catch, g.pcakeep       = EEG.nbchan;                   end
 try g.nchan;                 catch, g.nchan         = EEG.nbchan;                   end
 try g.pdftype;               catch, g.pdftype       = 0;                            end

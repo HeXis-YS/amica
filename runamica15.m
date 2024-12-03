@@ -142,9 +142,9 @@ fix_init = 0;
 
 block_size = -1; % initial block size
 do_opt_block = 0; % optimize block size
-blk_min = 1024;
+blk_min = 256;
 blk_step = 256;
-blk_max = 8192;
+blk_max = 1024;
 
 num_models = 1;
 num_mix_comps = 3;
@@ -181,8 +181,8 @@ newt_start = 50;
 newtrate = 1.0;
 newt_ramp = 10;
 
-do_reject = 0;
-numrej = 3;
+do_reject = 1;
+numrej = 100;
 rejsig = 3.0;
 rejstart = 2;
 rejint = 3;
@@ -192,7 +192,7 @@ min_dll = 1e-9;
 use_grad_norm = 1;
 min_grad_norm = 1e-7;
 
-writestep = 20;
+writestep = 1000;
 write_nd = 0;
 write_LLt = 1;
 decwindow = 1;
