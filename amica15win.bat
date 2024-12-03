@@ -8,4 +8,6 @@ for /f "tokens=1 delims==" %%I in ('set') do (
     )
 )
 
+set KMP_STACKSIZE=32m
+
 %~dp0amica15mkl.exe %*
