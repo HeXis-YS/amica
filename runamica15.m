@@ -140,8 +140,8 @@ send_mail = 0;
 
 fix_init = 0;
 
-block_size = 128; % initial block size
-do_opt_block = 1; % optimize block size
+block_size = -1; % initial block size
+do_opt_block = 0; % optimize block size
 blk_min = 1024;
 blk_step = 256;
 blk_max = 8192;
@@ -769,7 +769,13 @@ if isnumeric(dat)
     file = fullfile(pwd,filename);
 end;             
    
-   
+if block_size == -1
+    block_size = frames;
+    if do_reject == 1
+        block_size = block_size * 0.95;
+    end
+    block_size = floor (block_size / max_threads);
+end
    
 %%%%%%%%%%%%%%%%%%%%% create the param file %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
