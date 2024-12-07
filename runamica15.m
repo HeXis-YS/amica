@@ -182,7 +182,7 @@ newtrate = 1.0;
 newt_ramp = 10;
 
 do_reject = 1;
-numrej = 100;
+numrej = 5;
 rejsig = 3.0;
 rejstart = 2;
 rejint = 3;
@@ -772,7 +772,7 @@ end;
 if block_size == -1
     block_size = frames;
     if do_reject == 1
-        block_size = block_size * 0.95;
+        block_size = block_size * 0.90;
     end
     block_size = floor (block_size / max_threads);
 end
