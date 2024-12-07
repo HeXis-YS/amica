@@ -344,6 +344,7 @@ end
 EEG.icaweights = W;
 EEG.icasphere  = S(1:size(W,1),:);
 EEG.icawinv    = mods.A(:,:,1);
+EEG.icachansind = 1:EEG.nbchan;
 EEG.mods       = mods;
 
 % Building com for history-------------------------------------------------
