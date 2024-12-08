@@ -772,7 +772,7 @@ end;
 if block_size == -1
     block_size = frames;
     if do_reject == 1
-        block_size = block_size * 0.90;
+        block_size = block_size * 0.85;
     end
     block_size = floor (block_size / max_threads);
 end
