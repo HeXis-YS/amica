@@ -146,7 +146,7 @@ blk_min = 256;
 blk_step = 256;
 blk_max = 1024;
 
-num_models = 1;
+num_models = 3;
 num_mix_comps = 3;
 pdftype = 0;
 max_iter = 2000;
